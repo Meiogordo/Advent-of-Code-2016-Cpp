@@ -1,6 +1,0 @@
-﻿  stdafx.cpp
-  testnewmain.cpp
-  AdventOfCode2016 Day 1.cpp
-  Generating Code...
-testnewmain.obj : error LNK2005: _main already defined in AdventOfCode2016 Day 1.obj
-Z:\projetos gerais\C++\Advent-of-Code-2016-Cpp\AdventOfCode2016 Day 1\Debug\AdventOfCode2016 Day 1.exe : fatal error LNK1169: one or more multiply defined symbols found
