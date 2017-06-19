@@ -11,8 +11,12 @@ using namespace std;
 void switchDirection(char Rotation, char &currDirection);
 void walk(const char &currDirection, pair<int, int> &currPos, const int &walkAmout);
 
+//Don't kill me for using globals but I'm lazy
+vector<vector<bool>> visitedPos(873, vector<bool>(873));
+pair<int, int> visitedShift(373, 373); //Also this was easy mode solution, please don't judge
+
 int main() {
-	
+
 	vector<string> rawText = Utilities::ReadFile("Input-copy.txt");
 	//vector<string> rawText(1, "R5, L5, R5, R3"); //Manual override
 
@@ -33,10 +37,10 @@ int main() {
 		switchDirection(splitText[i][0], direction);
 		walk(direction, currPos, stoi(splitText[i].substr(1)));
 
-		cout << "i: " << i << "\t" << splitText[i] << "\t" << "new pos: " << currPos.first << "|" << currPos.second << endl;
+		//cout << "i: " << i << "\t" << splitText[i] << "\t" << "new pos: (" << currPos.first << "," << currPos.second << ")" << endl;
 	}
 
-	cout << "\n\n\n" << "Final pos: " << currPos.first << "|" << currPos.second;
+	cout << "\n\n\n" << "Final pos: (" << currPos.first << "," << currPos.second << ")";
 	cout << "\nDistance walked: " << (abs(currPos.first) + abs(currPos.second)) << endl;
 
 	return 0;
@@ -67,16 +71,48 @@ void switchDirection(char Rotation, char &currDirection) {
 void walk(const char &currDirection, pair<int, int> &currPos, const int &walkAmout) {
 	switch (currDirection) {
 	case 'N':
-		currPos.second += walkAmout;
+		for (unsigned int i = 0; i < walkAmout; ++i) {
+			currPos.second += 1;
+			if (visitedPos[currPos.first + visitedShift.first][currPos.second + visitedShift.second]) {
+				cout << "Position: " << currPos.first << "," << currPos.second;
+				cout << "\nDistance from 0,0: " << (abs(currPos.first) + abs(currPos.second)) << endl;
+				exit(0); //Lazy exiting :X
+			}
+			else visitedPos[currPos.first + visitedShift.first][currPos.second + visitedShift.second] = true;
+		}
 		break;
 	case 'E':
-		currPos.first += walkAmout;
+		for (unsigned int i = 0; i < walkAmout; ++i) {
+			currPos.first += 1;
+			if (visitedPos[currPos.first + visitedShift.first][currPos.second + visitedShift.second]) {
+				cout << "Position: " << currPos.first << "," << currPos.second;
+				cout << "\nDistance from 0,0: " << (abs(currPos.first) + abs(currPos.second)) << endl;
+				exit(0); //Lazy exiting :X
+			}
+			else visitedPos[currPos.first + visitedShift.first][currPos.second + visitedShift.second] = true;
+		}
 		break;
 	case 'S':
-		currPos.second -= walkAmout;
+		for (unsigned int i = 0; i < walkAmout; ++i) {
+			currPos.second -= 1;
+			if (visitedPos[currPos.first + visitedShift.first][currPos.second + visitedShift.second]) {
+				cout << "Position: " << currPos.first << "," << currPos.second;
+				cout << "\nDistance from 0,0: " << (abs(currPos.first) + abs(currPos.second)) << endl;
+				exit(0); //Lazy exiting :X
+			}
+			else visitedPos[currPos.first + visitedShift.first][currPos.second + visitedShift.second] = true;
+		}
 		break;
 	case 'W':
-		currPos.first -= walkAmout;
+		for (unsigned int i = 0; i < walkAmout; ++i) {
+			currPos.first -= 1;
+			if (visitedPos[currPos.first + visitedShift.first][currPos.second + visitedShift.second]) {
+				cout << "Position: " << currPos.first << "," << currPos.second;
+				cout << "\nDistance from 0,0: " << (abs(currPos.first) + abs(currPos.second)) << endl;
+				exit(0); //Lazy exiting :X
+			}
+			else visitedPos[currPos.first + visitedShift.first][currPos.second + visitedShift.second] = true;
+		}
 		break;
 	default:
 		cout << "Poop nuggets! Something went terribly wrong!" << endl;
