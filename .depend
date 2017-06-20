@@ -1,3 +1,0 @@
-#MAKE .DEPEND FILE
-Day1.o: Day1/Day1.cpp Utils/Utilities.h
-Utilities.o: Utils/Utilities.cpp Utils/Utilities.h
