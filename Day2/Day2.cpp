@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 
-#include "../Utilities.h"
+#include "Utils/Utilities.h"
 
 using namespace std;
 
@@ -53,7 +53,7 @@ int main() {
 	pair<int, int> keypadPos = { -2,0 }; //Starts at 5 (was 1,1 for P1, now is -2,0)
 
 	//vector<string> text = { "ULL","RRDDD","LURDL","UUUUD" }; //Manual override for example testing
-	vector<string> text = Utilities::ReadFile("Input-copy-Day2.txt");
+	vector<string> text = Utilities::ReadFile("Day2/Input.txt");
 
 	for (int i = 0; i < text.size(); ++i) {
 		interpretLine(keypadPos, text[i]);

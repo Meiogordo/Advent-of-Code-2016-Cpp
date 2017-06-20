@@ -3,7 +3,7 @@
 #include <string>
 #include <cmath>
 
-#include "../Utilities.h"
+#include "Utils/Utilities.h"
 
 using namespace std;
 
@@ -12,12 +12,12 @@ void switchDirection(char Rotation, char &currDirection);
 void walk(const char &currDirection, pair<int, int> &currPos, const int &walkAmout);
 
 //Don't kill me for using globals but I'm lazy
-vector<vector<bool>> visitedPos(873, vector<bool>(873));
-pair<int, int> visitedShift(373, 373); //Also this was easy mode solution, please don't judge
+vector<vector<bool> > visitedPos(1073, vector<bool>(1073));
+pair<int, int> visitedShift(573, 573); //Also this was easy mode solution, please don't judge
 
 int main() {
 
-	vector<string> rawText = Utilities::ReadFile("Input-copy.txt");
+	vector<string> rawText = Utilities::ReadFile("Day1/Input.txt");
 	//vector<string> rawText(1, "R5, L5, R5, R3"); //Manual override
 
 	//Splitting text at each ","
