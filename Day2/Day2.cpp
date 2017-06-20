@@ -52,11 +52,12 @@ int main() {
 
 	pair<int, int> keypadPos = { -2,0 }; //Starts at 5 (was 1,1 for P1, now is -2,0)
 
-	//vector<string> text = { "ULL","RRDDD","LURDL","UUUUD" }; //Manual override for example testing
+	//vector<string> text = { "RRRRURURDR","LLLLULULDL","RRUUL","DDDDLLRD" }; //Manual override for example testing
 	vector<string> text = Utilities::ReadFile("Day2/Input.txt");
 
 	for (int i = 0; i < text.size(); ++i) {
 		interpretLine(keypadPos, text[i]);
+		cout << "Debug pos: " << keypadPos.first << "," << keypadPos.second << "\t";
 		cout << "New keypad press: " << p2Keypad[keypadPos.first][keypadPos.second] << endl;
 	}
 
@@ -66,7 +67,7 @@ int main() {
 void interpretLine(pair<int, int> &pos, string instructions) {
 
 	for (int i = 0; i < instructions.length(); ++i) {
-		//interpretChar(pos, instructions[i]);
+		//interpretChar(pos, instructions[i]); //Part 1 stuff
 		interpretCharP2(pos, instructions[i]);
 	}
 
@@ -118,7 +119,7 @@ void interpretCharP2(pair<int, int> &pos, char instruction) {
 	case 'R':
 		switch (pos.first) {
 		case 0:
-			if (pos.second != -2 && pos.first != 2)
+			if (pos.second != -2 && pos.second != 2)
 				++pos.first;
 			break;
 		case 1:
@@ -152,7 +153,7 @@ void interpretCharP2(pair<int, int> &pos, char instruction) {
 	case 'L':
 		switch (pos.first) {
 		case 0:
-			if (pos.second != -2 && pos.first != 2)
+			if (pos.second != -2 && pos.second != 2)
 				--pos.first;
 			break;
 		case -1:
