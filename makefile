@@ -18,8 +18,12 @@ endif
 
 #Defining sources and objects
 SRCS=$(DAY)/$(DAY).cpp Utils/Utilities.cpp
+#Switch to include md5 lib, appends md5 lib's path to SRCS
+#TODO: get better if, should check for a "true" and "false" value and not just if it is defined
+ifdef needsMD5
+SRCS+=Utils/md5.cpp
+endif
 OBJS=$(subst .cpp,.o,$(SRCS))
-
 
 ## Tests in attempting to get all .o files to be inside the build directory - unsuccessful, obviously
 #RAWSRCS=$(DAY).cpp Utilities.cpp
