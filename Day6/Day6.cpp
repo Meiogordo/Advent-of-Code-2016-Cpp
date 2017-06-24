@@ -13,6 +13,7 @@ using namespace std;
 string findRealMessage(vector<string> messages);
 bool sortfunc(const pair<char, unsigned int> &p1, const pair<char, unsigned int> &p2);
 char mostcommonchar(const map<char, unsigned int> &m);
+char leastcommonchar(const map<char, unsigned int> &m);
 
 
 int main() {
@@ -42,7 +43,8 @@ string findRealMessage(vector<string> messages){
 	
 	//assuming all messages have the same size which is true supposedly
 	for(unsigned int i = 0; i < messages[0].size(); ++i){
-		output.push_back(mostcommonchar(counter[i]));
+		//output.push_back(mostcommonchar(counter[i])); //Part 1
+		output.push_back(leastcommonchar(counter[i]));
 	}
 	
 	return output;	
@@ -61,9 +63,21 @@ char mostcommonchar(const map<char, unsigned int> &m){
 	//Copying the map to a vector
 	vector<pair<char, unsigned int>> vec(m.begin(), m.end());
 	
-	//sorting the vector in descending order using sortfunc
+	//sorting the vector in descending order using sortfunc -> 0 is the most common
 	sort(vec.begin(), vec.end(), sortfunc);
 	
 	//The most common char is the first one
+	return vec[0].first;
+}
+
+//Gets the least common char in a <char,unsigned int> map
+char leastcommonchar(const map<char, unsigned int> &m){
+	//Copying the map to a vector
+	vector<pair<char, unsigned int>> vec(m.begin(), m.end());
+	
+	//sorting the vector in reverse descending order using sortfunc -> reverse of descending is ascending, 0 is the least common
+	sort(vec.rbegin(), vec.rend(), sortfunc); //Note the reverse iterators
+	
+	//The least common char is the first one
 	return vec[0].first;
 }
