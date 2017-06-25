@@ -28,84 +28,84 @@ int main() {
 	return 0;
 }
 
-bool checkTLS(string ip){
+bool checkTLS(string ip) {
 	bool abbaOut = false, noAbbaIn = true; //The initial values are because of the loops
-	
+
 	/*
 	//This won't work hardcoded, there are more than one [] group in input apparently lol
 	string before = ip.substr(0, ip.find('['));
 	string middle = ip.substr(ip.find('[') + 1, ip.find(']') - ip.find('[') - 1);
 	string after = ip.substr(ip.find(']') + 1);
-	
+
 	abbaOut = hasAbba(before) || hasAbba(after);
 	noAbbaIn = !hasAbba(middle);
 	*/
-	
-	
+
+
 	//Non hardcoded
 	//Note: the getting of outer and inner probably could be done all at once and much more efficiently, but my head hurts and I'm not good with substrings lol
-	
+
 	vector<string> outer, inner;
-	
+
 	unsigned int pos = 0;
-	
-	//Getting outer
+
+	//Getting outer and inner
 	//Outer is the stuff outside of '[' and ']'
 	//So, from 0 to the first '[' and from ']' to '[' until there are none, then being from ']' until the end
-	
-	//First done outside for ease of coding
-	outer.push_back(ip.substr(0, ip.find('[') - 0));
-	
-	pos = ip.find(']');
-	
-	//While there is an '[' after the current ']'
-	while(ip.find('[', pos) != string::npos){
-		
-		outer.push_back(ip.substr(pos + 1, ip.find('[', pos) - pos - 1));
-		
-		//Updating pos
-		pos = ip.find(']', pos);	
-	}
-	
-	//Final one is until the end of the string
-	outer.push_back(ip.substr(pos + 1));
-	
-	pos = 0;
-	
-	//Getting inner
+
 	//Inner is the stuff between '[' and ']', exclusively
-	while(ip.find('[', pos) != string::npos){
-		//Since the '[' was found, updating pos
-		pos = ip.find('[', pos);
-		//Getting substr and pushing it back
-		inner.push_back(ip.substr(pos, ip.find(']', pos) - pos - 1));
+
+	//The flag to switch between pushing to outer or to inner
+	bool pushingToOuter = true;
+	//For holding positions for the substr (for [ and ])
+	int openPos = 0, closePos = -1; //close starts at -1 because of first substr for outer
+
+	for (unsigned int i = 0; i < ip.length(); i++) {
+		if (pushingToOuter) {
+			if (ip[i] == '[') {
+				openPos = i;
+				outer.push_back(ip.substr(closePos + 1, openPos - closePos - 1));
+				pushingToOuter = false;
+			}
+		}
+		else {
+			if (ip[i] == ']') {
+				closePos = i;
+				inner.push_back(ip.substr(openPos + 1, closePos - openPos - 1));
+				pushingToOuter = true;
+			}
+
+		}
 	}
-	
+
+	//Last outer isn't found in this for loop, because it is until the end
+	outer.push_back(ip.substr(closePos + 1)); //From the last ']' until the end
+
 	cout << "Outer: " << endl;
 	Utilities::printVector(outer);
-	
+
 	cout << "\nInner: \n";
 	Utilities::printVector(inner);
-	
+
 	//The termination condition has the extra && so that when a true is found the loop is exited, because nothing more needs to be checked
 	//(The abbas in the outside are ORs, because there only needs to be one in total
-	for(unsigned int i = 0; i < outer.size() && !abbaOut; ++i){
+	for (unsigned int i = 0; i < outer.size() && !abbaOut; ++i) {
 		//This would be equivalent without requiring use of the && in the condition above
 		/*
 		if(hasAbba(outer[i]){
-			abbaOut = true;
-			break;	
-		}	
+		abbaOut = true;
+		break;
+		}
 		*/
 		abbaOut |= hasAbba(outer[i]);
 	}
-	
+
 	//Same idea as above but since there can be no abbas inside, the bool value is obtained through &=
 	//(Sort of the negation of ||, which is &&)
-	for(unsigned int i = 0; i < inner.size() && noAbbaIn; ++i){
+	for (unsigned int i = 0; i < inner.size() && noAbbaIn; ++i) {
 		noAbbaIn &= !hasAbba(inner[i]);
 	}
-	
+
 	return abbaOut && noAbbaIn;
 }
 
